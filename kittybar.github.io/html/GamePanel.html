@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="css/GamePanel.css">
+        <title>Game</title>
+        
+    </head>
+    <body>
+        <audio autoplay loop><source src="/js/Sounds/scarysounds.wav"</source></audio>
+        <img src = "images/fullbar.gif" id = "batterybar" align = right>
+        <p id = "batterypercent" align = right>100%</p>
+        <img src = "images/flashlightoff.png" id = "fl"> 
+        <p id = "text">You wake up in a dark room, and all you can hear is the sound of the howling wind and snapping of twigs.</p> <br>
+        <img src = "images/box.gif" id = "image"> <br>
+        
+        <button type = "button" id = "b1" onclick = "switchPanel(1)">jhljhlk</button>
+        <button type = "button" id = "b2" onclick = "switchPanel(1)">jgkjhgkjhgkj</button>
+        <script>
+        var snd = new Audio("js/Sounds/halloween_theme_song.wav"); // buffers automatically when created
+snd.loop = true;
+snd.play()
+            var time = 160;
+            var battery = 100;
+            var knife = 0; 
+            var key = 0; 
+            function rightAns()
+            {
+                time = time - 1;
+                battery = battery - 6;
+                updateTimeAndBattery();
+            }
+            function wrongAns()
+            {
+                time = time - 5;
+                battery = battery - 12;
+                updateTimeAndBattery();
+                if(battery==0)
+                {
+                    battery=0;
+                }
+            }
+            function batteryPack()
+            {
+                battery+=15;
+            }
+            function updateTimeAndBattery()
+            {
+                if(battery>=90)
+                    document.getElementById("batterybar").src="images/fullbar.gif";
+                else if(battery>=70)
+                    document.getElementById("batterybar").src="images/semifullbar.gif";
+                else if(battery>=50)
+                    document.getElementById("batterybar").src="images/yellowbarfull.gif";
+                else if(battery>=30)
+                    document.getElementById("batterybar").src="images/yellowbarlow.gif";
+                else if(battery>=10)
+                    document.getElementById("batterybar").src="images/redbarfull.gif";
+                else if(battery>=5)
+                    document.getElementById("batterybar").src="images/redbarlow.gif";
+                else
+                    document.getElementById("batterybar").src="images/emptybar.gif";
+                document.getElementById("batterypercent").innerHTML = battery + "%";
+            }
+            
+            function switchPanel(x)
+            {
+                if(time <= 0 || battery <=0)
+                x = 100; 
+                switch(x)
+                {
+                    case 1:
+                        document.getElementById("fl").src="images/flashlightoff.png"
+                        document.getElementById("text").innerHTML="You wake up in a cabin. All you can hear is the sound of the howling wind and snapping of twigs.";
+                        document.getElementById("image").src="images/cabin.gif";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'hidden';
+                        document.getElementById("b1").innerHTML = "Look around";
+                        document.getElementById("b2").innerHTML = "";
+                        document.getElementById("b1").onclick = function() { switchPanel(2);};
+                        document.getElementById("b2").onclick = function() { switchPanel(2);};
+                        console.log(x);
+                        break;
+                    case 2:
+                        document.getElementById("text").innerHTML="You see a dim fireplace, and begin to wonder how you ended up in this old cabin.";
+                        document.getElementById("image").src="images/fireplace.gif";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'visible';
+                        document.getElementById("b1").innerHTML = 'Leave';
+                        document.getElementById("b2").innerHTML = 'Touch the Fire';
+                        document.getElementById("b1").onclick = function() { switchPanel(3);};
+                        document.getElementById("b2").onclick = function() { switchPanel(99);};
+                        console.log(x);
+                        break;
+                    case 3:
+document.getElementById("fl").src = "images/flashlight.png";
+                        document.getElementById("text").innerHTML="There is a strange path ahead of you. Follow it?";
+                        document.getElementById("image").src="images/trees.png";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'visible';
+                        document.getElementById("b1").innerHTML = 'Yes';
+                        document.getElementById("b2").innerHTML = 'No';
+                        document.getElementById("b1").onclick = function() { rightAns(); switchPanel(4);};
+                        document.getElementById("b2").onclick = function() { wrongAns(); switchPanel(4);};
+                        console.log(x);
+                        break;
+                    case 4:
+                        document.getElementById("text").innerHTML="You see a girl.";
+                        document.getElementById("image").src="images/girl.gif";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'visible';
+                        document.getElementById("b1").innerHTML = 'Leave and Move On';
+                        document.getElementById("b2").innerHTML = 'Attempt to Talk with Her';
+                        document.getElementById("b1").onclick = function() { rightAns(); switchPanel(6);};
+                        document.getElementById("b2").onclick = function() { wrongAns(); switchPanel(26);};
+                        console.log(x);
+                        break;
+                    case 5:
+                        document.getElementById("text").innerHTML="You find a battery pack.";
+                        document.getElementById("image").src="images/5th-Panel.gif";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'hidden';
+                        document.getElementById("b1").innerHTML = 'Pick up battery pack (+5 battery).';
+                        document.getElementById("b2").innerHTML = '';
+                        document.getElementById("b1").onclick = function() {  batteryPack(); rightAns(); switchPanel(6);};
+                        document.getElementById("b2").onclick = function() { wrongAns(); switchPanel(6);};
+                        console.log(x);
+                        break;
+                    case 6:
+                        document.getElementById("text").innerHTML="You find a small dagger.";
+                        document.getElementById("image").src="images/dagger.gif";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'visible';
+                        document.getElementById("b1").innerHTML = 'Pick it up.';
+                        document.getElementById("b2").innerHTML = 'Leave it.';
+                        document.getElementById("b1").onclick = function() { knife = 1; rightAns(); switchPanel(7);};
+                        document.getElementById("b2").onclick = function() { wrongAns(); switchPanel(7);};
+                        console.log(x);
+                        break;
+                    case 7:
+                        document.getElementById("text").innerHTML="You are attacked by a small animal.";
+                        document.getElementById("image").src="images/6thPanel.png";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'visible';
+                        document.getElementById("b1").innerHTML = 'Attack it.';
+                        document.getElementById("b2").innerHTML = 'Leave it.';
+                        if(knife==0)
+                        {
+                            document.getElementById("b1").onclick = function() { wrongAns(); switchPanel(27);};
+                            document.getElementById("b2").onclick = function() { rightAns(); switchPanel(8);};
+                        }
+                        else
+                        {
+                            document.getElementById("b1").onclick = function() { rightAns(); switchPanel(8);};
+                            document.getElementById("b2").onclick = function() { wrongAns(); switchPanel(8);};
+                        }
+                        console.log(x);
+                        break;
+                    case 8:
+                        document.getElementById("text").innerHTML="You find a treasure chest.  Do you open it?";
+                        document.getElementById("image").src="images/chest.gif";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'visible';
+                        document.getElementById("b1").innerHTML = 'Open chest.';
+                        document.getElementById("b2").innerHTML = 'Leave chest.';
+                        document.getElementById("b1").onclick = function() { wrongAns(); switchPanel(9);};
+                        document.getElementById("b2").onclick = function() { rightAns(); switchPanel(9);};
+                        console.log(x);
+                        break;
+                    case 9:
+                        document.getElementById("text").innerHTML="You find a weapon.  Do you take it?";
+                        document.getElementById("image").src="images/weapon.gif";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'visible';
+                        document.getElementById("b1").innerHTML = 'Yes.';
+                        document.getElementById("b2").innerHTML = 'No.';
+                        document.getElementById("b1").onclick = function() { knife = 1; rightAns(); switchPanel(10);};
+                        document.getElementById("b2").onclick = function() { wrongAns(); switchPanel(10);};
+                        console.log(x);
+                        break;
+            
+                    case 10:
+                        document.getElementById("text").innerHTML="You find a treasure chest.  Do you open it?";
+                        document.getElementById("image").src="images/chest.gif";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'visible';
+                        document.getElementById("b1").innerHTML = 'Open chest.';
+                        document.getElementById("b2").innerHTML = 'Leave chest.';
+                        document.getElementById("b1").onclick = function() { rightAns(); switchPanel(11);};
+                        document.getElementById("b2").onclick = function() { wrongAns(); switchPanel(12);};
+                        console.log(x);
+                        break;
+                        case 11:
+                        document.getElementById("text").innerHTML="You find batteries. Take them?";
+                        document.getElementById("image").src="images/batteries.gif";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'visible';
+                        document.getElementById("b1").innerHTML = 'Take them.';
+                        document.getElementById("b2").innerHTML = 'Leave .';
+                        document.getElementById("b1").onclick = function() { batteryPack(); rightAns(); switchPanel(12);};
+                        document.getElementById("b2").onclick = function() { wrongAns(); switchPanel(12);};
+                        console.log(x);
+                        break;
+                    case 12:
+                        document.getElementById("text").innerHTML="There is a cat on the ground.  Do you help it?";
+                        document.getElementById("image").src="images/cat.gif";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'visible';
+                        document.getElementById("b1").innerHTML = 'Help it.';
+                        document.getElementById("b2").innerHTML = 'Ignore it.';
+                        document.getElementById("b1").onclick = function() { batteryPack(); rightAns(); switchPanel(13);};
+                        document.getElementById("b2").onclick = function() { wrongAns(); switchPanel(13);};
+                        console.log(x);
+                        break;
+                    case 13:
+                        document.getElementById("text").innerHTML="You hear a sound in the forest.";
+                        document.getElementById("image").src="images/trees.png";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'visible';
+                        document.getElementById("b1").innerHTML = 'Investigate.';
+                        document.getElementById("b2").innerHTML = 'Ignore.';
+                        document.getElementById("b1").onclick = function() { wrongAns(); switchPanel(14);};
+                        document.getElementById("b2").onclick = function() { rightAns(); switchPanel(15);};
+                        console.log(x);
+                        break;
+                    case 14:
+                        document.getElementById("text").innerHTML="You investigate the sound and find a doll on the ground.  Do you pick it up?";
+                        document.getElementById("image").src="images/doll.gif";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'visible';
+                        document.getElementById("b1").innerHTML = 'Pick it up.';
+                        document.getElementById("b2").innerHTML = 'Leave.';
+                        document.getElementById("b1").onclick = function() { wrongAns(); switchPanel(15);};
+                        document.getElementById("b2").onclick = function() { rightAns(); switchPanel(15);};
+                        console.log(x);
+                        break;
+                    case 15:
+                        document.getElementById("text").innerHTML="There is a small house ahead.  Do you enter?";
+                        document.getElementById("image").src="images/smallhouse.png";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'visible';
+                        document.getElementById("b1").innerHTML = 'Yes.';
+                        document.getElementById("b2").innerHTML = 'No.';
+                        document.getElementById("b1").onclick = function() { wrongAns(); switchPanel(16);};
+                        document.getElementById("b2").onclick = function() { rightAns(); switchPanel(17);};
+                        console.log(x);
+                        break;
+                    case 16: 
+                        document.getElementById("text").innerHTML="There is a battery pack on the table.  Do you take it?";
+                        document.getElementById("image").src="images/darkroom.gif";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'visible';
+                        document.getElementById("b1").innerHTML = 'Yes.';
+                        document.getElementById("b2").innerHTML = 'No.';
+                        document.getElementById("b1").onclick = function() { batteryPack(); batteryPack(); rightAns(); switchPanel(17);};
+                        document.getElementById("b2").onclick = function() { wrongAns(); switchPanel(17);};
+                        console.log(x);
+                        break;
+                    case 17:
+                        document.getElementById("text").innerHTML="There is a small building ahead.  Do you enter?";
+                        document.getElementById("image").src="images/smallbuilding.gif";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'visible';
+                        document.getElementById("b1").innerHTML = 'Yes.';
+                        document.getElementById("b2").innerHTML = 'No.';
+                        document.getElementById("b1").onclick = function() { wrongAns(); switchPanel(20);};
+                        document.getElementById("b2").onclick = function() { rightAns(); switchPanel(21);};
+                        console.log(x);
+                        break;
+                        case 18:
+                        document.getElementById("text").innerHTML="There is a chest.  Do you open it?";
+                        document.getElementById("image").src="images/chesttable.gif";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'visible';
+                        document.getElementById("b1").innerHTML = 'Yes.';
+                        document.getElementById("b2").innerHTML = 'No.';
+                        document.getElementById("b1").onclick = function() { knife = 1; rightAns(); switchPanel(18);};
+                        document.getElementById("b2").onclick = function() { wrongAns(); switchPanel(19);};
+                        console.log(x);
+                        break;
+                    case 19: 
+                        document.getElementById("text").innerHTML="There is a small building ahead.  Do you enter?";
+                        document.getElementById("image").src="images/smallbuilding.gif";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'visible';
+                        document.getElementById("b1").innerHTML = 'Yes.';
+                        document.getElementById("b2").innerHTML = 'No.';
+                        document.getElementById("b1").onclick = function() { wrongAns(); switchPanel(20);};
+                        document.getElementById("b2").onclick = function() { rightAns(); switchPanel(21);};
+                        console.log(x);
+                        break; 
+                    case 20:
+                        document.getElementById("text").innerHTML="You enter a dusty, abandoned living room.  There is a key.  Do you take it?";
+                        document.getElementById("image").src="images/livingroom.gif";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'visible';
+                        document.getElementById("b1").innerHTML = 'Yes.';
+                        document.getElementById("b2").innerHTML = 'No.';
+                        document.getElementById("b1").onclick = function() { key = 1; rightAns(); switchPanel(21);};
+                        document.getElementById("b2").onclick = function() { wrongAns(); switchPanel(21);};
+                        console.log(x);
+                        break;
+                    case 21:
+                        document.getElementById("text").innerHTML="You see an eerie mansion ahead.";
+                                                document.getElementById("image").src = 'images/mansion.gif';
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'visible';
+                        if(key==1)
+                        {
+                            document.getElementById("b1").innerHTML = 'Use your key.';
+                            document.getElementById("b1").onclick = function() { rightAns(); switchPanel(101);};
+                        }
+                        else
+                        {
+                            document.getElementById("b1").innerHTML = 'Try to open door.';
+                            document.getElementById("b1").onclick = function() { wrongAns(); switchPanel(29);};
+                        }
+                        document.getElementById("b2").innerHTML = 'Leave';
+                        document.getElementById("b2").onclick = function() { wrongAns(); switchPanel(19);};
+                       break;
+                    case 22: 
+                        document.getElementById("text").innerHTML="You encounter a treasure chest. Key?";
+                        document.getElementById("image").src="images/chest.gif";
+                        if(key == 1)
+                        {
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'visible';
+                        document.getElementById("b1").innerHTML = 'Use your key';
+                        document.getElementById("b2").innerHTML = 'Leave';
+                        document.getElementById("b1").onclick = function() { rightAns(); switchPanel(29);};
+                        document.getElementById("b2").onclick = function() { wrongAns(); switchPanel(23);};
+                        }
+                        else
+                        {
+                             document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'hidden';
+                        document.getElementById("b2").innerHTML = 'Leave because you don\'t have a key';
+                        document.getElementById("b1").onclick = function() { rightAns(); switchPanel(23);};
+                        }
+                        console.log(x);
+                        break;
+                    case 23: 
+                        document.getElementById("text").innerHTML="There is a clearing ahead. You see a light.";
+                        document.getElementById("image").src="box.gif";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'visible';
+                        document.getElementById("b1").innerHTML = 'Keep going';
+                        document.getElementById("b2").innerHTML = 'Turn around';
+                        document.getElementById("b1").onclick = function() { rightAns(); switchPanel(98);};
+                        document.getElementById("b2").onclick = function() { wrongAns(); switchPanel(21);};
+                        console.log(x);
+                        break;
+                    case 24:
+                     <!--  random page  --!>
+                    case 25:
+                         document.getElementById("text").innerHTML="Keep going?";
+                        document.getElementById("image").src="images/trees.png";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'visible';
+                        document.getElementById("b1").innerHTML = 'Keep going';
+                        document.getElementById("b2").innerHTML = 'Stay';
+                        document.getElementById("b1").onclick = function() { rightAns(); switchPanel(6);};
+                        document.getElementById("b2").onclick = function() { wrongAns(); switchPanel(25);};
+                        console.log(x);
+                        break;
+                        case 26:
+                         document.getElementById("text").innerHTML="...";
+                        document.getElementById("image").src="images/girlanimation.gif";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'hidden';
+                        document.getElementById("b1").innerHTML = 'Move on';
+                        document.getElementById("b1").onclick = function() { rightAns(); switchPanel(25);};
+                        console.log(x);
+                        break;
+                         case 28:
+                         document.getElementById("text").innerHTML="Keep going?";
+                        document.getElementById("image").src="images/trees.png";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'visible';
+                        document.getElementById("b1").innerHTML = 'Keep going';
+                        document.getElementById("b2").innerHTML = 'Stay';
+                        document.getElementById("b1").onclick = function() { rightAns(); switchPanel(6);};
+                        document.getElementById("b2").onclick = function() { wrongAns(); switchPanel(28);};
+                        console.log(x);
+                        break;
+                        
+                         case 27:
+                         document.getElementById("text").innerHTML="The animal hurt you.";
+                        document.getElementById("image").src="images/eye.gif";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'hidden';
+                        document.getElementById("b1").innerHTML = 'Keep going';
+                        document.getElementById("b2").innerHTML = 'Stay';
+                        document.getElementById("b1").onclick = function() { rightAns(); switchPanel(8);};
+                        document.getElementById("b2").onclick = function() { wrongAns(); switchPanel(25);};
+                        console.log(x);
+                        break;
+                        
+                        case 29:
+  document.getElementById("text").innerHTML="Can\'t open that.";
+                        document.getElementById("image").src="images/eye.gif";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'hidden';
+                        document.getElementById("b1").innerHTML = 'Keep going';
+                        document.getElementById("b2").innerHTML = 'Stay';
+                        document.getElementById("b1").onclick = function() { rightAns(); switchPanel(21);};
+                        document.getElementById("b2").onclick = function() { wrongAns(); switchPanel(21);};
+                        console.log(x);
+                        break;
+                        
+                        
+                        case 98: 
+                         document.getElementById("text").innerHTML="lol.";
+                        document.getElementById("image").src="images/rawr.png";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'hidden';
+                        document.getElementById("b1").innerHTML = 'Leave';
+                        document.getElementById("b1").onclick = function() { rightAns(); switchPanel(3);};
+                        console.log(x);
+                        break;
+                        
+                        
+                    case 99:
+                        document.getElementById("text").innerHTML="You burned yourself.";
+                        document.getElementById("image").src="images/eye.gif";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'hidden';
+                        document.getElementById("b1").innerHTML = 'Leave';
+                        document.getElementById("b1").onclick = function() { rightAns(); switchPanel(3);};
+                        console.log(x);
+                        break;
+                    case 100:
+                        document.getElementById("text").innerHTML="You ran out of batteries.";
+                        document.getElementById("image").src="images/GameOver.gif";
+                        document.getElementById("b1").style.visibility = 'visible';
+                        document.getElementById("b2").style.visibility = 'hidden';
+                        document.getElementById("b1").innerHTML = 'Try again';
+                        time = 160;
+                        battery = 105;
+                        knife = 0; 
+                        key = 0; 
+                        document.getElementById("b1").onclick = function() { rightAns(); switchPanel(1);};
+                        console.log(x);
+                        break;
+                    case 101:
+                        document.getElementById("text").innerHTML="You win!";
+                        document.getElementById("image").src="images/eye.gif";
+                        document.getElementById("b1").style.visibility = 'hidden';
+                        document.getElementById("b2").style.visibility = 'hidden';
+                        document.getElementById("fl").style.visibility = 'hidden';
+                        console.log(x);
+                }
+            }
+            switchPanel(1);
+            
+        </script>
+         </body>
+
+</html>
